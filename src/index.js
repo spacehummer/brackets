@@ -1,47 +1,4 @@
 function check(str, bracketsConfig) {
-  /**
-   * Пример реализации стека с использованием такой стандартной структуры, как массив.
-   * <br>Также рассмотрена работа с ним.
-   */
-  function stackOnArrayExample() {
-    console.log('Stack on Array example:');
-
-    // Создадим массив stack, с которым мы будем работать, как со стеком.
-    let stack = [];
-
-    // Далее будем класть поочереди в него элементы, используя метод, стандартный
-    // для массивов: .push().
-    console.log('  Push fake call stack:');
-
-    console.log('    push Outer');
-    stack.push('Outer');
-
-    console.log('    push Inner');
-    stack.push('Inner');
-
-    console.log('    push Super-Inner');
-    stack.push('Super-Inner');
-
-    console.log('    push Super-Super-Inner');
-    stack.push('Super-Super-Inner');
-
-    // Произведём иллюстративный вызов стека - извлечём все его элементы
-    console.log('  Execute fake call stack:');
-
-    // Для этого используем цикл while, который будет работать, пока в стеке есть элементы,
-    // то есть пока stack.length > 0. Как только он станет равен 0, 0 - это false
-    // и цикл while перестанет повторяться.
-    while (stack.length) {
-      // Каждую итерацию цикла переопределяем переменную operation и кладём в неё
-      // верхний элемент стека, извлекая его из стека стандартным для массива методом
-      // .pop()
-      // https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/pop
-      let operation = stack.pop();
-
-      // Выводим в консоль с подписью изъятый элемент.
-      console.log('    execute -', operation);
-    }
-  }
 
   /**
    * Main brackets check function.
@@ -174,7 +131,6 @@ function check(str, bracketsConfig) {
 
   }
 
-  // stackOnArrayExample();
   return checkBrackets(str, bracketsConfig);
 
 }
