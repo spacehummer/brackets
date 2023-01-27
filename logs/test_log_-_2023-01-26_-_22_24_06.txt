@@ -1,0 +1,110 @@
+
+> brackets@1.0.0 test
+> mocha test.js
+
+true
+
+
+  ✔ should check if brackets sequence is correct 1
+  ✔ should check if brackets sequence is correct 2
+  ✔ should check if brackets sequence is not correct 3
+  ✔ should check if brackets sequence is correct 4
+  ✔ should check if brackets sequence is not correct 5
+  ✔ should check if brackets sequence is correct 6
+  ✔ should check if brackets sequence is correct 7
+  1) should check if brackets sequence is correct 8
+  2) should check if brackets sequence is correct 9
+  ✔ should check if brackets sequence is not correct 10
+  3) should check if brackets sequence is correct 11
+  4) should check if brackets sequence is correct 12
+  ✔ should check if brackets sequence is correct 13
+  ✔ should check if brackets sequence is correct 14
+  5) should check if brackets sequence is correct 15
+  ✔ should check if brackets sequence is not correct 16
+  ✔ should check if brackets sequence is not correct 17
+  ✔ should check if brackets sequence is not correct 18
+  6) should check if brackets sequence is correct 19
+  7) should check if brackets sequence is correct 20
+
+  13 passing (11ms)
+  7 failing
+
+  1) should check if brackets sequence is correct 8:
+
+      AssertionError [ERR_ASSERTION]: false == true
+      + expected - actual
+
+      -false
+      +true
+      
+      at Context.<anonymous> (test.js:41:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  2) should check if brackets sequence is correct 9:
+
+      AssertionError [ERR_ASSERTION]: false == true
+      + expected - actual
+
+      -false
+      +true
+      
+      at Context.<anonymous> (test.js:45:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  3) should check if brackets sequence is correct 11:
+
+      AssertionError [ERR_ASSERTION]: false == true
+      + expected - actual
+
+      -false
+      +true
+      
+      at Context.<anonymous> (test.js:53:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  4) should check if brackets sequence is correct 12:
+
+      AssertionError [ERR_ASSERTION]: false == true
+      + expected - actual
+
+      -false
+      +true
+      
+      at Context.<anonymous> (test.js:57:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  5) should check if brackets sequence is correct 15:
+
+      AssertionError [ERR_ASSERTION]: false == true
+      + expected - actual
+
+      -false
+      +true
+      
+      at Context.<anonymous> (test.js:69:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  6) should check if brackets sequence is correct 19:
+
+      AssertionError [ERR_ASSERTION]: false == true
+      + expected - actual
+
+      -false
+      +true
+      
+      at Context.<anonymous> (test.js:85:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  7) should check if brackets sequence is correct 20:
+
+      AssertionError [ERR_ASSERTION]: false == true
+      + expected - actual
+
+      -false
+      +true
+      
+      at Context.<anonymous> (test.js:89:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+
+

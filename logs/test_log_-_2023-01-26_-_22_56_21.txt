@@ -1,0 +1,119 @@
+
+> brackets@1.0.0 test
+> mocha test.js
+
+Testing string:  "|()|"
+Brackets config:  "(,),|,|"
+true
+
+
+Testing string:  "()"
+Brackets config:  "(,)"
+  ✔ should check if brackets sequence is correct 1
+Testing string:  "((()))()"
+Brackets config:  "(,)"
+  ✔ should check if brackets sequence is correct 2
+Testing string:  "())("
+Brackets config:  "(,)"
+  ✔ should check if brackets sequence is not correct 3
+Testing string:  "([{}])"
+Brackets config:  "(,),[,],{,}"
+  ✔ should check if brackets sequence is correct 4
+Testing string:  "[(])"
+Brackets config:  "(,),[,]"
+  ✔ should check if brackets sequence is not correct 5
+Testing string:  "[]()"
+Brackets config:  "(,),[,]"
+  ✔ should check if brackets sequence is correct 6
+Testing string:  "[]()("
+Brackets config:  "(,),[,]"
+  ✔ should check if brackets sequence is correct 7
+Testing string:  "||"
+Brackets config:  "|,|"
+  ✔ should check if brackets sequence is correct 8
+Testing string:  "|()|"
+Brackets config:  "(,),|,|"
+  ✔ should check if brackets sequence is correct 9
+Testing string:  "|(|)"
+Brackets config:  "(,),|,|"
+  1) should check if brackets sequence is not correct 10
+Testing string:  "|()|(||)||"
+Brackets config:  "(,),|,|"
+  ✔ should check if brackets sequence is correct 11
+Testing string:  "111115611111111222288888822225577877778775555666677777777776622222"
+Brackets config:  "1,2,3,4,5,6,7,7,8,8"
+  ✔ should check if brackets sequence is correct 12
+Testing string:  "5555512575557777777555566667888888667661133833448441111222233333444442266666"
+Brackets config:  "1,2,3,4,5,6,7,7,8,8"
+  2) should check if brackets sequence is correct 13
+Testing string:  "8888877878887777777888888887777777887887788788887887777777788888888887788888"
+Brackets config:  "1,2,3,4,5,6,7,7,8,8"
+  3) should check if brackets sequence is correct 14
+Testing string:  "111115611111111156111111112222888888222255778777787755556666777777777766222221111222288888822225577877778775555666677777777776622222"
+Brackets config:  "1,2,3,4,5,6,7,7,8,8"
+  ✔ should check if brackets sequence is correct 15
+Testing string:  "[]][[]"
+Brackets config:  "(,),[,],{,}"
+  ✔ should check if brackets sequence is not correct 16
+Testing string:  "[]][[]"
+Brackets config:  "(,),[,]"
+  ✔ should check if brackets sequence is not correct 17
+Testing string:  "([[[[(({{{}}}(([](((((((())))||||||))))[[{{|{{}}|}}[[[[]]]]{{{{{}}}}}]]))))]]]]))()"
+Brackets config:  "(,),[,],{,},|,|"
+  4) should check if brackets sequence is not correct 18
+Testing string:  "([[[[(({{{}}}(([](((((((())))||||||))))[[{{|{{}}|}}[[[[]]]]{{{{{}}}}}]]))))]]]])(())"
+Brackets config:  "(,),[,],{,},|,|"
+  ✔ should check if brackets sequence is correct 19
+Testing string:  "([[[[(({{{}}}(([](((((((())))||||||))))[[{{|{{}}|}}[[[[]]]]{{{{{}}}}}]]))))]]]])((([[[[(({{{}}}(([](((((((())))||||||))))[[{{|{{}}|}}[[[[]]]]{{{{{}}}}}]]))))]]]])))"
+Brackets config:  "(,),[,],{,},|,|"
+  ✔ should check if brackets sequence is correct 20
+
+  16 passing (15ms)
+  4 failing
+
+  1) should check if brackets sequence is not correct 10:
+
+      AssertionError [ERR_ASSERTION]: true == false
+      + expected - actual
+
+      -true
+      +false
+      
+      at Context.<anonymous> (test.js:49:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  2) should check if brackets sequence is correct 13:
+
+      AssertionError [ERR_ASSERTION]: true == false
+      + expected - actual
+
+      -true
+      +false
+      
+      at Context.<anonymous> (test.js:61:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  3) should check if brackets sequence is correct 14:
+
+      AssertionError [ERR_ASSERTION]: true == false
+      + expected - actual
+
+      -true
+      +false
+      
+      at Context.<anonymous> (test.js:65:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+  4) should check if brackets sequence is not correct 18:
+
+      AssertionError [ERR_ASSERTION]: true == false
+      + expected - actual
+
+      -true
+      +false
+      
+      at Context.<anonymous> (test.js:81:10)
+      at process.processImmediate (node:internal/timers:471:21)
+
+
+
