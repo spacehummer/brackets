@@ -1,5 +1,9 @@
 function check(str, bracketsConfig) {
 
+  /*
+  * Использовался алгоритм с двумя стеками. Имеются ложные срабатывания `|()|(||)||`.
+  * */
+
   /**
    * Main brackets check function.
    */
@@ -88,7 +92,7 @@ function check(str, bracketsConfig) {
 
           similarBracketsStack.pop();
           similarBracketsStatus = true;
-          
+
         }
 
       } else {
