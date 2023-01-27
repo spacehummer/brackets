@@ -1,9 +1,16 @@
 function check(str, bracketsConfig) {
 
+  /*
+  * Использовался алгоритм с двумя стеками. Имеются ложные срабатывания `|()|(||)||`.
+  * */
+
   /**
    * Main brackets check function.
    */
   function checkBrackets(str, bracketsConfig) {
+
+    // Debug info: objects to watch:
+    // str, charIndex, currentSymbol, similarBracketsStack, openBracketsStack, similarBracketsStatus, regularBracketsStatus
 
     // Вывести в лог текущую строку со скобками:
     console.log(`\nTesting string:`, str);
@@ -57,15 +64,27 @@ function check(str, bracketsConfig) {
       // задаётся одним и тем же символом.
       if (similarBracketsPairMap[currentSymbol] === currentSymbol) {
 
+        // Теперь проверяем, что стек под similar скобки пустой и при этом текущий символ
+        // проверяемой строки последний. Если это так, то значит однозначно имеем скобку закрывающую
+        // без открывающей и результат анализа на эти скобки: false.
         if (similarBracketsStack.length === 0 && charIndex === str.length - 1) {
 
           similarBracketsStatus = false;
 
+          // Иначе проверяем размер стека под similar скобки. Если там пусто - мы нашли первую
+          // (открывающую скобку) и кладём её в стек для similar скобок.
         } else if (similarBracketsStack.length === 0) {
 
           similarBracketsStack.push(currentSymbol);
 
-        } else if (similarBracketsStack.length !== 0 && openBracketsStack.length !== 0) {
+          // Иначе если у нас стек similar скобок не пустой и стек нормальных скобок не пустой,
+          // то возвращаем False? (это закрывает случай `|()|` но ломает случай `|()|(||)||`!!!)
+          //
+        } else if (
+          similarBracketsStack.length !== 0
+          && openBracketsStack.length !== 0
+          && str.slice(charIndex + 1).indexOf(Object.keys(bracketsPairsMap).find(key => bracketsPairsMap[key] === openBracketsStack[0])) !== -1)
+        {
 
           similarBracketsStatus = false;
 
@@ -116,15 +135,15 @@ function check(str, bracketsConfig) {
           }
         }
 
-        // Если все проверки выше ничего не вернули (они могут вернуть только false),
-        // то проверяем, что в стеке ничего нет выражением
-        // ниже, которое вернёт true, если стек пустой.
-        if (!regularBracketsStatementsStatus) {
-          regularBracketsStatus =  openBracketsStack.length === 0;
-        }
-
       }
 
+    }
+
+    // Если все проверки выше ничего не вернули (они могут вернуть только false),
+    // то проверяем, что в стеке ничего нет выражением
+    // ниже, которое вернёт true, если стек пустой.
+    if (!regularBracketsStatementsStatus) {
+      regularBracketsStatus =  openBracketsStack.length === 0;
     }
 
     return regularBracketsStatus && similarBracketsStatus;
@@ -137,9 +156,10 @@ function check(str, bracketsConfig) {
 
 module.exports = check;
 
-// console.log(check("((()))()"));
-// console.log(check("|()|", "(,),|,|"));
+console.log(check("((()))()"));
+console.log(check("|()|", "(,),|,|"));
+console.log(check("|(|)", "(,),|,|"));
 console.log(check("|()|(||)||", "(,),|,|"));
-// console.log(check("|(|)", [ [ '(', ')' ], [ '|', '|' ] ]));
+
 
 
