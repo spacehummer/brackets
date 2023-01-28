@@ -1,8 +1,13 @@
 function check(str, bracketsConfig) {
 
   /*
-  * Использовался алгоритм с двумя стеками. Имеются ложные срабатывания `|()|(||)||`.
-  * */
+   * Использовался алгоритм с двумя стеками. Имелись ложные срабатывания `|()|(||)||`.
+   * */
+
+  /*
+   * Вторая версия: алгоритм с одним стеком для обоих типов скобок. Сразу работаю с исходным
+   * конфигом в виде двумерного массива.
+   * */
 
   /**
    * Main brackets check function.
@@ -44,109 +49,126 @@ function check(str, bracketsConfig) {
 
     // Создаём стек для скобок такого типа, при котором открывающаяся и закрывающая одним и тем
     // же символом обозначается.
-    let similarBracketsStack = [];
+    // let similarBracketsStack = [];
 
     // Переменные для хранения результата анализа для каждого типа скобок.
-    let regularBracketsStatus = true;
-    let similarBracketsStatus = true;
+    // let regularBracketsStatus = true;
+    // let similarBracketsStatus = true;
 
     // Переменная для хранения состояния того, отработало ли хотя бы одно условие на проверку
     // классических парных скобок.
+    // Not used in current version.
     let regularBracketsStatementsStatus = false;
 
-    // Цикл для переборки символ строки и их анализа.
-    // Выполняется столько раз, сколько символов в строке.
-    for (let charIndex = 0; charIndex < str.length; charIndex++) {
-      // Временная переменная для хранения текущего символа.
-      let currentSymbol = str[charIndex];
+    // Необходимо найти способ работать с исходным конфигом скобок.
+    // Если работаем, как со строкой. `.replace()` с регулярным выражением уберёт скобки,
+    // которые появятся из-за вложенности массивов.
+    // Not used in current version.
+    let bracketsConfigStr = bracketsConfig.join('').replace(/,/g, '');
 
-      // Проверяем, является ли текущий символ типом скобки, для которого правая и левая скобка
-      // задаётся одним и тем же символом.
-      if (similarBracketsPairMap[currentSymbol] === currentSymbol) {
 
-        // Теперь проверяем, что стек под similar скобки пустой и при этом текущий символ
-        // проверяемой строки последний. Если это так, то значит однозначно имеем скобку закрывающую
-        // без открывающей и результат анализа на эти скобки: false.
-        if (similarBracketsStack.length === 0 && charIndex === str.length - 1) {
+    // Функция для проверки типа скобки (является ли она открывающейся).
+    // Если работаем с исходным массивом.
+    function isBracketsIsOpen (bracketsConfig, bracketChecked) {
 
-          similarBracketsStatus = false;
+      let isOpenStatus = false;
 
-          // Иначе проверяем размер стека под similar скобки. Если там пусто - мы нашли первую
-          // (открывающую скобку) и кладём её в стек для similar скобок.
-        } else if (similarBracketsStack.length === 0) {
+      bracketsConfig.forEach((bracketPair) => {
+        if (bracketPair[0] === bracketChecked) {
+          isOpenStatus = true;
+        }
+      })
 
-          similarBracketsStack.push(currentSymbol);
+      return isOpenStatus;
+    }
 
-          // Иначе если у нас стек similar скобок не пустой и стек нормальных скобок не пустой,
-          // то возвращаем False? (это закрывает случай `|()|` но ломает случай `|()|(||)||`!!!)
-          //
-        } else if (
-          similarBracketsStack.length !== 0
-          && openBracketsStack.length !== 0
-          && str.slice(charIndex + 1).indexOf(Object.keys(bracketsPairsMap).find(key => bracketsPairsMap[key] === openBracketsStack[0])) !== -1)
-        {
+    // Функция для получения идентификатора типа скобки исходя из данной конфигурации скобок.
+    // Это будет номер вложенного массива с парой скобок.
+    // Функция применяется, если работаем с исходным массивом.
+    function getBracketsPairTypeNumber (bracketsConfig, bracketChecked) {
 
-          similarBracketsStatus = false;
+      let bracketPairIndexOutput = null;
 
-        } else if (similarBracketsStack.length !== 0) {
+      bracketsConfig.forEach((bracketPair, bracketPairIndex) => {
+        if (bracketPair.includes(bracketChecked)) {
+          bracketPairIndexOutput = bracketPairIndex;
+        }
+      })
 
-          similarBracketsStack.pop();
-          similarBracketsStatus = true;
+      return bracketPairIndexOutput;
 
+    }
+
+
+    // Main loop - for iterate through source string
+    for (let charIndex = 0; charIndex < str.length; charIndex ++) {
+
+      // Temporal const (update every iteration) - current symbol of source string.
+      const currentSymbol = str[charIndex];
+
+      // Работаем с конфигом скобок, как с массивом двумерным, строка не нужна.
+      // let bracketsIndex = bracketsConfigStr.indexOf(currentSymbol)
+
+      // Get brackets pair type from config: it is number of inner Array in outer Array.
+      // 0 < bracketsPairTypeNumber < bracketsConfig.length - 1
+      let bracketsPairTypeNumber = getBracketsPairTypeNumber(bracketsConfig, currentSymbol);
+
+      // Get brackets type of pair (opening or closing) by it position in inner config Array.
+      // 0 - opening;
+      // 1 - closing.
+      let bracketsInPairIndex = bracketsConfig[bracketsPairTypeNumber].indexOf(currentSymbol)
+
+      // Класть в стек и обрабатывать объект с информаций о скобке?..
+      // Not used in current version.
+      const bracketInfo = {
+        pairTypeNumber: bracketsPairTypeNumber,
+        bracketsInPairIndex: bracketsInPairIndex,
+      }
+
+      // Текущая скобка открывающаяся?
+      if (isBracketsIsOpen(bracketsConfig, currentSymbol)) {
+
+        // Если текущая скобка (открывающаяся), обозначена таким же символом, как закрывающаяся,
+        // и текущий тип скобок (тип текущей скобки) лежит в стеке сверху:
+        // => извлечь из стека верхний элемент.
+        if (currentSymbol === bracketsConfig[bracketsPairTypeNumber][1] && openBracketsStack[openBracketsStack.length - 1] === bracketsConfig[bracketsPairTypeNumber][bracketsInPairIndex]){
+          openBracketsStack.pop();
+          // иначе: если текущая скобка (открывающаяся), обозначена таким же символом, как закрывающаяся,
+          // и текущий тип скобок не соответствует типу скобки, которая лежит в стеке сверху:
+          // => добавить текущую скобку в стек.
+        } else if (currentSymbol === bracketsConfig[bracketsPairTypeNumber][1] && openBracketsStack[openBracketsStack.length - 1] !== bracketsConfig[bracketsPairTypeNumber][bracketsInPairIndex]) {
+          openBracketsStack.push(bracketsConfig[bracketsPairTypeNumber][bracketsInPairIndex])
+        }
+        else{
+          // иначе (это если скобка разными символами слева и справа обозначается):
+          // => добавить текущую скобку в стек.
+          openBracketsStack.push(bracketsConfig[bracketsPairTypeNumber][bracketsInPairIndex])
+        }
+      }
+      // иначе (если текущая скобка закрывающаяся, причём закрывающаяся кодируемая разными
+      // символами слева и справа):
+      else {
+
+        // Если текущая скобка, которая должна быть закрывающейся, не является таковой
+        // для скобки, лежащей вверху стека:
+        // => остановить выполнение функции и вернуть `false`.
+        if (openBracketsStack[openBracketsStack.length - 1] !== bracketsConfig[bracketsPairTypeNumber][bracketsInPairIndex - 1]){
+          return false;
         }
 
-      } else {
-
-        regularBracketsStatementsStatus = false;
-
-        // Проверяем, является ли текущий символ открывающей скобкой, используя метод
-        // .includes() (метод работы с массивами) для массива с типами открывающихся скобок.
-        if (openBracketsTypesArr.includes(currentSymbol)) {
-          // Если это так, то кладём открывающую скобку в стек.
-          openBracketsStack.push(currentSymbol);
-
-        } else {
-
-          // Иначе проверяем, есть ли в стеке что-то или он пустой (его длинна 0).
-          // Если он пустой, а во входных данных мы ожидаем
-          // только скобки без других символов, мы возвращаем false, говоря этим, что
-          // правила работы со скобками нарушены. Так как тогда мы имеем закрывающую
-          // скобку без открывающей.
-          if (openBracketsStack.length === 0) {
-            regularBracketsStatus = false;
-            regularBracketsStatementsStatus = true;
-          }
-
-          // Если стек содержит элементы (условие выше не отработало), то выполнится
-          // код ниже. А именно: будет получен верхний элемент стека и временно положен
-          // в переменную topElement.
-          let topElement = openBracketsStack[openBracketsStack.length - 1];
-
-          // Теперь мы проверим, а что это за элемент.
-          if (bracketsPairsMap[currentSymbol] === topElement) {
-            // Если для текущего символа строки открывающий символ равен верхнему
-            // элементу стека, то удали этот верхний элемент стека - мы нашли пару, всё нормально.
-            openBracketsStack.pop();
-          } else {
-            // Иначе принимаем, что правила работы со скобками нарушены и возвращаем false.
-            // Так как это будет значить, что мы имеем закрывающую скобку не того типа.
-            regularBracketsStatus = false;
-            regularBracketsStatementsStatus = true;
-          }
-        }
+        // В любом случае извлеки верхний элемент стека:
+        openBracketsStack.pop()
 
       }
 
     }
 
-    // Если все проверки выше ничего не вернули (они могут вернуть только false),
-    // то проверяем, что в стеке ничего нет выражением
-    // ниже, которое вернёт true, если стек пустой.
-    if (!regularBracketsStatementsStatus) {
-      regularBracketsStatus =  openBracketsStack.length === 0;
-    }
+    // Если проверки в цикле не прервали выполнение функции, но мы дошли до конца строки,
+    // проверяем, пустой ли стек.
+    // Если стек пустой - то вернётся `true` - все скобки закрываются и отбалансированы.
+    // Если строка закончилась, а стек не пустой - то вернётся `false` - какие-то скобки не закрыты.
+    return openBracketsStack.length === 0
 
-    return regularBracketsStatus && similarBracketsStatus;
 
   }
 
@@ -156,10 +178,10 @@ function check(str, bracketsConfig) {
 
 module.exports = check;
 
-console.log(check("((()))()"));
-console.log(check("|()|", "(,),|,|"));
-console.log(check("|(|)", "(,),|,|"));
-console.log(check("|()|(||)||", "(,),|,|"));
+// console.log(check("((()))()", [['(', ')']]));
+// console.log(check("|()|", [['(', ')'], ['|', '|']]));
+// console.log(check("|(|)", [['(', ')'], ['|', '|']]));
+// console.log(check("|()|(||)||", [['(', ')'], ['|', '|']]));
 
 
 
