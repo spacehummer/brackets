@@ -149,7 +149,7 @@ function check(str, bracketsConfig) {
       // символами слева и справа):
       else {
 
-        // Если текущая скобка, которая должна быть открывающейся, не является таковой
+        // Если текущая скобка, которая должна быть закрывающейся, не является таковой
         // для скобки, лежащей вверху стека:
         // => остановить выполнение функции и вернуть `false`.
         if (openBracketsStack[openBracketsStack.length - 1] !== bracketsConfig[bracketsPairTypeNumber][bracketsInPairIndex - 1]){
@@ -179,9 +179,9 @@ function check(str, bracketsConfig) {
 module.exports = check;
 
 // console.log(check("((()))()", [['(', ')']]));
-console.log(check("|()|", [['(', ')'], ['|', '|']]));
-console.log(check("|(|)", [['(', ')'], ['|', '|']]));
-console.log(check("|()|(||)||", [['(', ')'], ['|', '|']]));
+// console.log(check("|()|", [['(', ')'], ['|', '|']]));
+// console.log(check("|(|)", [['(', ')'], ['|', '|']]));
+// console.log(check("|()|(||)||", [['(', ')'], ['|', '|']]));
 
 
 
